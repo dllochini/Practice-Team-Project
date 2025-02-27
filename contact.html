@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Landslide Awareness</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#contact-form">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="contact-form">
+        <h2>Contact Us</h2>
+        <p>If you have any questions about landslides or would like to share your experience, please fill out the form below:</p>
+
+        <form id="contact-form">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" placeholder="Enter your message" rows="4" required></textarea>
+
+            <label for="understand">
+                <input type="checkbox" id="understand" name="understand" required>
+                I understand the risks of landslides.
+            </label>
+
+            <button type="submit">Submit</button>
+        </form>
+        <p>Total Submissions: <span id="submission-count">0</span></p>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Landslide Awareness. All rights reserved.</p>
+    </footer>
+</body>
+<script>
+// https://jsonplaceholder.typicode.com/
+
+let submissionCount = 0;
+
+const form = document.getElementById("contact-form");
+const submissionCountDisplay = document.getElementById("submission-count");
+
+function updateSubmissionCount() {
+    submissionCount++;
+    submissionCountDisplay.textContent = submissionCount;
+}
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+    const understand = document.getElementById("understand").checked;
+
+    handleFormData(name, email, message, understand);
+});
+
+function sendToAPI(formData) {
+    const apiUrl = "url";
+
+    fetch(apiUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error("Failed to submit the form. Please try again.");
+    })
+    .then(data => {
+        alert("Thank you for contacting us! We have received your message.");
+        console.log(data);
+    })
+    .catch(error => {
+        alert(error.message);
+        console.error(error);
+    });
+}
+
+function handleFormData(name, email, message, understand) {
+    console.log("Form Submitted!");
+    console.log("Name: " + name);
+    console.log("Email: " + email);
+    console.log("Message: " + message);
+    console.log("Understood the risks: " + (understand ? "Yes" : "No"));
+
+    alert("Thank you for contacting us, " + name + "! We have received your message.");
+    updateSubmissionCount();
+    form.reset();
+}
+
+</script>
+</html>
+
